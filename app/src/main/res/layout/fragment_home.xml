@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFF">
+    android:background="@color/page_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Andi Pratama"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_absolute"
                     android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Program\nMinggu Ini"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_absolute"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:lineSpacingExtra="2dp"/>
@@ -87,7 +87,7 @@
                         android:paddingHorizontal="14dp"
                         android:paddingVertical="6dp"
                         android:text="Aktif"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_absolute"
                         android:textSize="11sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tips hari ini"
-                android:textColor="#212121"
+                android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -191,7 +191,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:text="Hidrasi"
-                            android:textColor="#212121"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -201,7 +201,7 @@
                             android:layout_marginTop="8dp"
                             android:gravity="center"
                             android:text="8\ngelas/hari"
-                            android:textColor="#757575"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp"
                             android:lineSpacingExtra="2dp"/>
                     </LinearLayout>
@@ -230,7 +230,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:text="Tidur"
-                            android:textColor="#212121"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -240,7 +240,7 @@
                             android:layout_marginTop="8dp"
                             android:gravity="center"
                             android:text="7-8 jam"
-                            android:textColor="#757575"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -268,7 +268,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:text="Nutrisi"
-                            android:textColor="#212121"
+                            android:textColor="@color/text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -278,7 +278,7 @@
                             android:layout_marginTop="8dp"
                             android:gravity="center"
                             android:text="Sayur &amp;\nbuah"
-                            android:textColor="#757575"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp"
                             android:lineSpacingExtra="2dp"/>
                     </LinearLayout>
@@ -328,7 +328,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Bench\nPress"
-                            android:textColor="#212121"
+                            android:textColor="@color/text_primary"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:lineSpacingExtra="2dp"/>
@@ -338,7 +338,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Chest · 3x12 ·\nBeginner"
-                            android:textColor="#9E9E9E"
+                            android:textColor="@color/text_secondary"
                             android:textSize="13sp"
                             android:lineSpacingExtra="2dp"/>
                     </LinearLayout>
@@ -356,7 +356,7 @@
                         android:paddingVertical="10dp"
                         android:text="Mulai"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_absolute"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -390,7 +390,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Jump\nSquat"
-                            android:textColor="#212121"
+                            android:textColor="@color/text_primary"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:lineSpacingExtra="2dp"/>
@@ -400,7 +400,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Legs · 4x10 ·\nBeginner"
-                            android:textColor="#9E9E9E"
+                            android:textColor="@color/text_secondary"
                             android:textSize="13sp"
                             android:lineSpacingExtra="2dp"/>
                     </LinearLayout>
@@ -418,7 +418,7 @@
                         android:paddingVertical="10dp"
                         android:text="Mulai"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/white_absolute"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>

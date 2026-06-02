@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Semantic Colors (Dark) -->
+    <color name="page_background">#121212</color>
+    <color name="card_background">#1E1E1E</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="header_text_color">#FFFFFF</color>
+    <color name="divider_color">#333333</color>
+    <color name="workout_card_stroke">#333333</color>
+    <color name="light_blue_bg">#2C2C2C</color>
+
+    <!-- We should also redefine 'white' if it's used as a background in drawables -->
+    <color name="white">#1E1E1E</color>
+</resources>

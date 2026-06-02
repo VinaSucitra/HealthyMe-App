@@ -2,6 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.HealthyMe" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/primary_green</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/home_header_bg</item>
     </style>
 </resources>

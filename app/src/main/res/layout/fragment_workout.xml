@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFF">
+    android:background="@color/page_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Daftar Workout"
-                android:textColor="#1A1A1A"
+                android:textColor="@color/text_primary"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="8dp"
                     android:text="Semua"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_absolute"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -64,7 +64,7 @@
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="8dp"
                     android:text="Chest"
-                    android:textColor="#9E9E9E"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
 
                 <TextView
@@ -75,7 +75,7 @@
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="8dp"
                     android:text="Back"
-                    android:textColor="#9E9E9E"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
 
                 <TextView
@@ -86,7 +86,7 @@
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="8dp"
                     android:text="Legs"
-                    android:textColor="#9E9E9E"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
 
                 <TextView
@@ -97,7 +97,7 @@
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="8dp"
                     android:text="Core"
-                    android:textColor="#9E9E9E"
+                    android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
             </LinearLayout>
         </HorizontalScrollView>

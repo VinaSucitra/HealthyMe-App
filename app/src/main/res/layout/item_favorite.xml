@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bench Press"
-            android:textColor="#1A1A1A"
+            android:textColor="@color/text_primary"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="Chest - Beginner"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -64,7 +64,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="12dp"
-            android:src="@drawable/ic_trash" />
+            android:src="@drawable/ic_trash"
+            app:tint="@color/text_primary" />
     </LinearLayout>
 
 </RelativeLayout>

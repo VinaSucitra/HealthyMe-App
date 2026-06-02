@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFF"
+    android:background="@color/page_background"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Workout Favorit"
-            android:textColor="#1A1A1A"
+            android:textColor="@color/text_primary"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -25,7 +25,8 @@
             android:layout_alignParentEnd="true"
             android:background="@drawable/bg_search_circle"
             android:padding="12dp"
-            android:src="@drawable/ic_filter" />
+            android:src="@drawable/ic_filter"
+            app:tint="@color/splash_cyan" />
     </RelativeLayout>
 
     <LinearLayout
@@ -49,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12"
-                android:textColor="@color/white"
+                android:textColor="@color/white_absolute"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -75,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4"
-                android:textColor="@color/white"
+                android:textColor="@color/white_absolute"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -101,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="38"
-                android:textColor="@color/white"
+                android:textColor="@color/white_absolute"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
