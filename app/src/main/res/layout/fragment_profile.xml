@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FAFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_home_header"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="48dp"
+            android:paddingBottom="40dp">
+
+            <TextView
+                android:id="@+id/tv_profile_avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/bg_logo_border"
+                android:gravity="center"
+                android:text="AP"
+                android:textColor="@color/splash_cyan"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="User Name"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_profile_join_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Bergabung Januari 2026"
+                android:textColor="#80FFFFFF"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_streak_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_streak_badge"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
+                android:text="Streak 0 Hari 🔥"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_count_favorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Favorit" android:textColor="#80FFFFFF" android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_count_session"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sesi" android:textColor="#80FFFFFF" android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_count_streak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Streak" android:textColor="#80FFFFFF" android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Settings Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PENGATURAN"
+                android:textColor="@color/splash_cyan"
+                android:textSize="13sp"
+                android:letterSpacing="0.05"
+                android:textStyle="bold" />
+
+            <!-- Dark Mode -->
+            <RelativeLayout
+                android:id="@+id/btn_dark_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_setting_item"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView android:id="@+id/iv_moon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_moon" />
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_toEndOf="@id/iv_moon" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mode Gelap" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ubah tema aplikasi" android:textColor="#9E9E9E" android:textSize="11sp" />
+                </LinearLayout>
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switch_dark_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:checked="true" />
+            </RelativeLayout>
+
+            <!-- Notifications -->
+            <RelativeLayout
+                android:id="@+id/btn_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_setting_item"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView android:id="@+id/iv_bell" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_bell" />
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_toEndOf="@id/iv_bell" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Notifikasi" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reminder workout" android:textColor="#9E9E9E" android:textSize="11sp" />
+                </LinearLayout>
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switch_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <!-- History -->
+            <RelativeLayout
+                android:id="@+id/btn_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_setting_item"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView android:id="@+id/iv_history" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_history" />
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_toEndOf="@id/iv_history" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Riwayat Aktivitas" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Lihat progres kamu" android:textColor="#9E9E9E" android:textSize="11sp" />
+                </LinearLayout>
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_arrow_right" />
+            </RelativeLayout>
+
+            <!-- Logout -->
+            <RelativeLayout
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_setting_item"
+                app:backgroundTint="@color/logout_red_bg"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView android:id="@+id/iv_logout" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_logout" />
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_toEndOf="@id/iv_logout" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Keluar" android:textColor="@color/logout_red_text" android:textSize="14sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Logout dari akun" android:textColor="#FF8A80" android:textSize="11sp" />
+                </LinearLayout>
+                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_arrow_right" app:tint="@color/logout_red_text" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

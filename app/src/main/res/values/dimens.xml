@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="header_padding_top">48dp</dimen>
+    <dimen name="card_corner_radius">20dp</dimen>
+    <dimen name="program_card_padding">24dp</dimen>
+    <dimen name="workout_icon_size">64dp</dimen>
+    <dimen name="tip_card_width">104dp</dimen>
+</resources>

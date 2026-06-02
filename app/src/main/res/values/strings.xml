@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">HealthyMe</string>
+
+    <!-- Profile Fragment -->
+    <string name="logout_confirm_title">Keluar</string>
+    <string name="logout_confirm_message">Apakah Anda yakin ingin keluar dari akun Anda?</string>
+    <string name="logout_positive">Keluar</string>
+    <string name="logout_negative">Batal</string>
+    <string name="notify_enabled">Notifikasi diaktifkan</string>
+    <string name="notify_disabled">Notifikasi dimatikan</string>
+    <string name="opening_history">Membuka Riwayat Aktivitas…</string>
+    <string name="streak_format">Streak %1$d Hari 🔥</string>
+    <string name="default_user_name">Andi Pratama</string>
+    <string name="edit_name_title">Ubah Nama</string>
+    <string name="save">Simpan</string>
+    <string name="cancel">Batal</string>
+    <string name="hint_enter_name">Masukkan nama Anda</string>
+
+    <!-- Home Fragment -->
+    <string name="greeting_format">Selamat pagi,</string>
+    <string name="tip_hydration_msg">Minum air putih membantu metabolisme tubuh!</string>
+    <string name="tip_sleep_msg">Tidur cukup meningkatkan pemulihan otot.</string>
+    <string name="tip_nutrition_msg">Nutrisi seimbang adalah kunci energi maksimal.</string>
+
+    <!-- Detail Activity -->
+    <string name="workout_completed_msg">Workout %1$s telah dicatat di riwayat!</string>
+    <string name="added_to_favorite">Ditambahkan ke Favorit</string>
+    <string name="removed_from_favorite">Dihapus dari Favorit</string>
+    <string name="btn_add_favorite">Tambah ke Favorit</string>
+    <string name="btn_remove_favorite">Hapus dari Favorit</string>
+</resources>

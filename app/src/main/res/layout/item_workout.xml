@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/bg_workout_item"
+    android:padding="16dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_workout_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@color/light_blue_bg"
+        android:padding="20dp"
+        android:src="@drawable/ic_dumbbell"
+        app:shapeAppearanceOverlay="@style/RoundedIcon" />
+
+    <LinearLayout
+        android:id="@+id/ll_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/iv_workout_icon"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_workout_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Barbell Bench Press"
+            android:textColor="#1A1A1A"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_muscle_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Chest - Compound"
+            android:textColor="#9E9E9E"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_badge_difficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge_beginner"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="Beginner"
+                android:textColor="@color/difficulty_beginner_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_badge_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_badge_strength"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="Strength"
+                android:textColor="@color/type_strength_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_favorite"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@android:drawable/btn_star_big_off" />
+
+</RelativeLayout>

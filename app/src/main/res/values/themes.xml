@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.HealthyMe" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/primary_green</item>
+        <item name="colorPrimaryVariant">@color/primary_dark_green</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/primary_dark_green</item>
+        <item name="colorSecondaryVariant">@color/primary_dark_green</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/home_header_bg</item>
+    </style>
+
+    <style name="Theme.HealthyMe" parent="Base.Theme.HealthyMe" />
+
+    <style name="CircleImage" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="RoundedIcon" parent="">
+        <item name="cornerSize">16dp</item>
+    </style>
+</resources>

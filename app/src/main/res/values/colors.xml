@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary_green">#4CAF50</color>
+    <color name="primary_dark_green">#388E3C</color>
+    <color name="light_green">#E8F5E9</color>
+    <color name="gray_text">#757575</color>
+    <color name="card_background">#FFFFFF</color>
+
+    <color name="splash_bg">#03091E</color>
+    <color name="splash_cyan">#00B0FF</color>
+    <color name="splash_progress_bg">#121A30</color>
+
+    <color name="home_header_bg">#03091E</color>
+    <color name="home_card_bg">#0A122A</color>
+    <color name="blue_button">#00A8FF</color>
+    <color name="light_blue_bg">#F4F9FF</color>
+
+    <!-- Workout & Detail Colors -->
+    <color name="chip_bg_unselected">#FFFFFF</color>
+    <color name="chip_stroke">#E0E8F0</color>
+    <color name="workout_card_stroke">#E0E8F0</color>
+
+    <color name="difficulty_beginner_bg">#E3F2FD</color>
+    <color name="difficulty_beginner_text">#1565C0</color>
+    <color name="difficulty_intermediate_bg">#FFF3E0</color>
+    <color name="difficulty_intermediate_text">#E65100</color>
+    <color name="difficulty_advanced_bg">#FFEBEE</color>
+    <color name="difficulty_advanced_text">#C62828</color>
+
+    <!-- Tag Colors -->
+    <color name="type_strength_bg">#F1F8E9</color>
+    <color name="type_strength_text">#33691E</color>
+    <color name="type_compound_bg">#E0F7FA</color>
+    <color name="type_compound_text">#00838F</color>
+
+    <color name="detail_bar_1">#00A8FF</color>
+    <color name="detail_bar_2">#0A1A3A</color>
+    <color name="detail_bar_3">#061226</color>
+    <color name="detail_instr_bg">#F8FAFF</color>
+
+    <!-- Profile & Favorite Colors -->
+    <color name="logout_red_bg">#FFF1F1</color>
+    <color name="logout_red_text">#E53935</color>
+    <color name="streak_badge_bg">#00A8FF</color>
+</resources>
