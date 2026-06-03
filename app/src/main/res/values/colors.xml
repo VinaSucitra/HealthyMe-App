@@ -18,8 +18,8 @@
     <color name="splash_cyan">#00B0FF</color>
     <color name="splash_progress_bg">#121A30</color>
 
-    <color name="home_header_bg">#03091E</color>
-    <color name="home_card_bg">#0A122A</color>
+    <color name="home_header_bg">#00B0FF</color>
+    <color name="home_card_bg">#0086D6</color> <!-- Lebih gelap sedikit dari Cyan agar kontras -->
     <color name="blue_button">#00A8FF</color>
     <color name="light_blue_bg">#F4F9FF</color>
     <color name="workout_card_stroke">#E0E8F0</color>

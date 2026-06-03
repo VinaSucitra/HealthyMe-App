@@ -10,6 +10,9 @@
     <color name="workout_card_stroke">#333333</color>
     <color name="light_blue_bg">#2C2C2C</color>
 
+    <color name="home_header_bg">#03091E</color> <!-- Dark mode: Dark Blue -->
+    <color name="home_card_bg">#0A122A</color>
+
     <!-- We should also redefine 'white' if it's used as a background in drawables -->
     <color name="white">#1E1E1E</color>
 </resources>

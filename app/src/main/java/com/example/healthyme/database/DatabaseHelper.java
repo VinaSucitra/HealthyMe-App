@@ -132,6 +132,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public int getHistoryCountThisWeek() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // SQLite query to count records from the last 7 days
+        String query = "SELECT COUNT(*) FROM " + TABLE_HISTORY + 
+                       " WHERE " + COLUMN_DATE + " >= date('now', '-7 days')";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
     public List<History> getAllHistory() {
         List<History> historyList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_HISTORY + " ORDER BY " + COLUMN_DATE + " DESC";

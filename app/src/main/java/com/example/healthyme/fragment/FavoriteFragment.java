@@ -32,6 +32,7 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView rvFavorite;
     private FavoriteAdapter adapter;
     private DatabaseHelper dbHelper;
+    private TextView tvStatFavorites, tvStatThisWeek, tvStatTotalSessions;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -41,6 +42,10 @@ public class FavoriteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         rvFavorite = view.findViewById(R.id.rv_favorite);
+        tvStatFavorites = view.findViewById(R.id.tv_stat_favorites);
+        tvStatThisWeek = view.findViewById(R.id.tv_stat_this_week);
+        tvStatTotalSessions = view.findViewById(R.id.tv_stat_total_sessions);
+
         dbHelper = new DatabaseHelper(getContext());
 
         rvFavorite.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -58,8 +63,8 @@ public class FavoriteFragment extends Fragment {
                 executorService.execute(() -> {
                     dbHelper.deleteFavorite(workout.getName());
                     mainHandler.post(() -> {
-                        loadFavorites();
-                        Toast.makeText(getContext(), "Dihapus dari favorit", Toast.LENGTH_SHORT).show();
+                        loadFavoritesAndStats();
+                        Toast.makeText(getContext(), R.string.removed_from_favorite, Toast.LENGTH_SHORT).show();
                     });
                 });
             }
@@ -73,14 +78,24 @@ public class FavoriteFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadFavorites();
+        loadFavoritesAndStats();
     }
 
-    private void loadFavorites() {
+    private void loadFavoritesAndStats() {
+        if (dbHelper == null) return;
+        
         executorService.execute(() -> {
             List<Workout> favorites = dbHelper.getAllFavorites();
+            int totalSessions = dbHelper.getHistoryCount();
+            int thisWeekSessions = dbHelper.getHistoryCountThisWeek();
+            
             mainHandler.post(() -> {
-                adapter.setFavorites(favorites);
+                if (isAdded()) {
+                    adapter.setFavorites(favorites);
+                    tvStatFavorites.setText(String.valueOf(favorites.size()));
+                    tvStatTotalSessions.setText(String.valueOf(totalSessions));
+                    tvStatThisWeek.setText(String.valueOf(thisWeekSessions));
+                }
             });
         });
     }
