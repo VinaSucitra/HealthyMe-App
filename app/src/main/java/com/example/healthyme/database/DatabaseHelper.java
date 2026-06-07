@@ -15,10 +15,11 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "HealthyMeDB";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String TABLE_FAVORITES = "favorites";
     private static final String TABLE_HISTORY = "workout_history";
+    private static final String TABLE_USERS = "users";
     
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
@@ -27,6 +28,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DIFFICULTY = "difficulty";
     private static final String COLUMN_INSTRUCTIONS = "instructions";
     private static final String COLUMN_DATE = "completion_date";
+
+    // User columns
+    private static final String COLUMN_USER_NAME = "user_name";
+    private static final String COLUMN_USER_PASSWORD = "user_password";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,6 +53,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_NAME + " TEXT,"
                 + COLUMN_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP" + ")";
         db.execSQL(CREATE_HISTORY_TABLE);
+
+        String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_USER_NAME + " TEXT UNIQUE,"
+                + COLUMN_USER_PASSWORD + " TEXT" + ")";
+        db.execSQL(CREATE_USERS_TABLE);
     }
 
     @Override
@@ -59,6 +70,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + COLUMN_DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP" + ")";
             db.execSQL(CREATE_HISTORY_TABLE);
         }
+        if (oldVersion < 3) {
+            String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
+                    + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_USER_NAME + " TEXT UNIQUE,"
+                    + COLUMN_USER_PASSWORD + " TEXT" + ")";
+            db.execSQL(CREATE_USERS_TABLE);
+        }
+    }
+
+    // --- USERS ---
+    public boolean registerUser(String name, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_NAME, name);
+        values.put(COLUMN_USER_PASSWORD, password);
+        long result = db.insert(TABLE_USERS, null, values);
+        return result != -1;
+    }
+
+    public boolean checkUser(String name, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {COLUMN_ID};
+        String selection = COLUMN_USER_NAME + " = ?" + " AND " + COLUMN_USER_PASSWORD + " = ?";
+        String[] selectionArgs = {name, password};
+        Cursor cursor = db.query(TABLE_USERS, columns, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count > 0;
     }
 
     // --- FAVORITES ---

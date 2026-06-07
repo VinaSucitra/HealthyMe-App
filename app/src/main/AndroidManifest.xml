@@ -36,6 +36,10 @@
             android:name=".activity.HistoryActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activity.SetupProfileActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

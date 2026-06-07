@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_detail_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_background">
@@ -17,7 +18,6 @@
             android:background="@drawable/bg_detail_header"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
-            android:paddingTop="48dp"
             android:paddingBottom="40dp">
 
             <LinearLayout
@@ -28,20 +28,21 @@
                 android:gravity="center_vertical"
                 android:clickable="true"
                 android:focusable="true"
+                android:padding="8dp"
                 android:background="?attr/selectableItemBackground">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_back"
-                    app:tint="@color/splash_cyan" />
+                    app:tint="@color/white_absolute" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Kembali"
-                    android:textColor="@color/splash_cyan"
+                    android:textColor="@color/white_absolute"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>

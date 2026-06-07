@@ -15,6 +15,9 @@
     <string name="save">Simpan</string>
     <string name="cancel">Batal</string>
     <string name="hint_enter_name">Masukkan nama Anda</string>
+    <string name="guest_user">Tamu</string>
+    <string name="login_register">Masuk / Daftar</string>
+    <string name="please_login">Silakan login untuk menggunakan fitur ini</string>
 
     <!-- Home Fragment -->
     <string name="greeting_format">Selamat pagi,</string>

@@ -26,10 +26,12 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_greeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/greeting_format"
-                    android:textColor="@color/splash_cyan"
+                    android:textColor="@color/white_absolute"
+                    android:alpha="0.8"
                     android:textSize="14sp"
                     android:fontFamily="sans-serif-medium" />
 
@@ -38,20 +40,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Andi Pratama"
+                    android:text="User Name"
                     android:textColor="@color/white_absolute"
                     android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_home_avatar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="false"
                 android:background="@drawable/bg_logo_border"
                 android:gravity="center"
-                android:text="AP"
+                android:text="UN"
                 android:textColor="@color/white_absolute"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -97,7 +100,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="6 dari 7 hari selesai"
-                    android:textColor="@color/splash_cyan"
+                    android:textColor="@color/white_absolute"
+                    android:alpha="0.9"
                     android:textSize="12sp"
                     android:fontFamily="sans-serif-medium"/>
 
@@ -118,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0%"
-                        android:textColor="#80FFFFFF"
+                        android:textColor="#BFFFFFFF"
                         android:textSize="11sp" />
 
                     <TextView
@@ -126,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:text="65%"
-                        android:textColor="@color/splash_cyan"
+                        android:textColor="@color/white_absolute"
                         android:textSize="11sp"
                         android:textStyle="bold" />
 
@@ -135,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="100%"
-                        android:textColor="#80FFFFFF"
+                        android:textColor="#BFFFFFFF"
                         android:textSize="11sp" />
                 </RelativeLayout>
             </LinearLayout>
