@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.healthyme.R;
 import com.example.healthyme.database.DatabaseHelper;
 import com.example.healthyme.model.Workout;
+import com.example.healthyme.util.TranslationUtils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -42,18 +41,15 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this); // Mengaktifkan tampilan layar penuh
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detail);
 
-        // Mengatur status bar agar transparan sehingga background biru header terlihat sampai atas
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
-        // Menangani Insets untuk tombol kembali agar turun di bawah jam/status bar
         btnBack = findViewById(R.id.btn_back);
         ViewCompat.setOnApplyWindowInsetsListener(btnBack, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) v.getLayoutParams();
-            // Memberikan margin top dinamis sesuai tinggi status bar + margin tambahan 16dp
             params.topMargin = systemBars.top + (int) (16 * getResources().getDisplayMetrics().density);
             v.setLayoutParams(params);
             return insets;
@@ -75,10 +71,20 @@ public class DetailActivity extends AppCompatActivity {
 
         if (workout != null) {
             tvName.setText(workout.getName());
-            tvInstructions.setText(workout.getInstructions());
-            tvBarDifficulty.setText(workout.getDifficulty());
-            tvBarMuscle.setText(workout.getMuscle());
-            tvBarType.setText(workout.getType());
+            
+            // Menampilkan status loading terjemahan
+            tvInstructions.setText("Menerjemahkan instruksi...");
+
+            // Menerjemahkan instruksi menggunakan Google ML Kit secara otomatis
+            TranslationUtils.translateWithMLKit(workout.getInstructions(), translatedText -> {
+                tvInstructions.setText(translatedText);
+            });
+            
+            // Menerjemahkan label kategori ke Bahasa Indonesia
+            tvBarDifficulty.setText(TranslationUtils.translate(workout.getDifficulty()));
+            tvBarMuscle.setText(TranslationUtils.translate(workout.getMuscle()));
+            tvBarType.setText(TranslationUtils.translate(workout.getType()));
+
             checkIfFavorite();
         }
 

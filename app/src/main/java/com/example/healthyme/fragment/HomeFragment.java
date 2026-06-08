@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +18,17 @@ import androidx.fragment.app.Fragment;
 
 import com.example.healthyme.R;
 import com.example.healthyme.activity.DetailActivity;
+import com.example.healthyme.database.DatabaseHelper;
 import com.example.healthyme.model.Workout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeFragment extends Fragment {
 
     private TextView tvUserName, tvHomeAvatar;
+    private TextView tvWeeklyStatus, tvWeeklyPercentage;
+    private ProgressBar pbWeeklyProgram;
     private SharedPreferences sharedPreferences;
+    private DatabaseHelper dbHelper;
 
     @Nullable
     @Override
@@ -31,10 +36,16 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         sharedPreferences = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        dbHelper = new DatabaseHelper(getContext());
         
         // Inisialisasi View Profil
         tvUserName = view.findViewById(R.id.tv_user_name);
         tvHomeAvatar = view.findViewById(R.id.tv_home_avatar);
+
+        // Inisialisasi View Program Mingguan
+        tvWeeklyStatus = view.findViewById(R.id.tv_weekly_status);
+        tvWeeklyPercentage = view.findViewById(R.id.tv_weekly_percentage);
+        pbWeeklyProgram = view.findViewById(R.id.pb_weekly_program);
 
         // Klik avatar atau nama untuk pindah ke tab Profile
         View.OnClickListener goToProfile = v -> {
@@ -46,13 +57,14 @@ public class HomeFragment extends Fragment {
         tvHomeAvatar.setOnClickListener(goToProfile);
         tvUserName.setOnClickListener(goToProfile);
 
-        // Load data profil
+        // Load data profil & program
         loadUserProfile();
+        updateWeeklyProgram();
 
         // Inisialisasi Tips
         View tipHydration = view.findViewById(R.id.tip_hydration);
         View tipSleep = view.findViewById(R.id.tip_sleep);
-        View tipNutrition = view.findViewById(R.id.tip_nutrition);
+        View tipNutrition = view.findViewById(R.id.tip_hydration_2);
 
         tipHydration.setOnClickListener(v -> showToast(getString(R.string.tip_hydration_msg)));
         tipSleep.setOnClickListener(v -> showToast(getString(R.string.tip_sleep_msg)));
@@ -104,10 +116,30 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private void updateWeeklyProgram() {
+        if (dbHelper == null) return;
+
+        // Ambil jumlah hari unik latihan dalam 7 hari terakhir
+        int uniqueDays = dbHelper.getUniqueDaysCountThisWeek();
+        int targetDays = 7;
+        
+        // Batasi maksimal 7 hari
+        if (uniqueDays > targetDays) uniqueDays = targetDays;
+
+        // Hitung persentase
+        int percentage = (int) ((uniqueDays / (float) targetDays) * 100);
+
+        // Update UI
+        tvWeeklyStatus.setText(uniqueDays + " dari " + targetDays + " hari selesai");
+        tvWeeklyPercentage.setText(percentage + "%");
+        pbWeeklyProgram.setProgress(percentage);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         loadUserProfile();
+        updateWeeklyProgram();
     }
 
     private void navigateToDetail(Workout workout) {

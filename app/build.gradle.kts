@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.glide)
+    implementation(libs.mlkit.translate)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

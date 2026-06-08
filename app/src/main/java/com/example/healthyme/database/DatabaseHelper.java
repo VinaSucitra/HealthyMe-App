@@ -173,9 +173,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int getHistoryCountThisWeek() {
         SQLiteDatabase db = this.getReadableDatabase();
-        // SQLite query to count records from the last 7 days
         String query = "SELECT COUNT(*) FROM " + TABLE_HISTORY + 
                        " WHERE " + COLUMN_DATE + " >= date('now', '-7 days')";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    /**
+     * Menghitung jumlah hari unik (unique days) di mana pengguna melakukan workout dalam 7 hari terakhir.
+     */
+    public int getUniqueDaysCountThisWeek() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(DISTINCT date(" + COLUMN_DATE + ")) FROM " + TABLE_HISTORY + 
+                       " WHERE " + COLUMN_DATE + " >= date('now', '-6 days')";
         Cursor cursor = db.rawQuery(query, null);
         int count = 0;
         if (cursor.moveToFirst()) {

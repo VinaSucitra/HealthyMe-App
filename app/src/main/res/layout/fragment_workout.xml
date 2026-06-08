@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/header_workout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="24dp">
@@ -39,6 +40,7 @@
             android:scrollbars="none">
 
             <LinearLayout
+                android:id="@+id/layout_chips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -46,6 +48,7 @@
                 android:paddingBottom="24dp">
 
                 <TextView
+                    android:id="@+id/chip_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_chip_selected"
@@ -54,9 +57,12 @@
                     android:text="Semua"
                     android:textColor="@color/white_absolute"
                     android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
                 <TextView
+                    android:id="@+id/chip_chest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -65,9 +71,12 @@
                     android:paddingVertical="8dp"
                     android:text="Chest"
                     android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
                 <TextView
+                    android:id="@+id/chip_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -76,9 +85,12 @@
                     android:paddingVertical="8dp"
                     android:text="Back"
                     android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
                 <TextView
+                    android:id="@+id/chip_legs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -87,9 +99,12 @@
                     android:paddingVertical="8dp"
                     android:text="Legs"
                     android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:clickable="true"
+                    android:focusable="true"/>
 
                 <TextView
+                    android:id="@+id/chip_abdominals"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -98,7 +113,9 @@
                     android:paddingVertical="8dp"
                     android:text="Core"
                     android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:clickable="true"
+                    android:focusable="true"/>
             </LinearLayout>
         </HorizontalScrollView>
 

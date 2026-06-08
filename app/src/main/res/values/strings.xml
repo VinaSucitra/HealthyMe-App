@@ -18,12 +18,18 @@
     <string name="guest_user">Tamu</string>
     <string name="login_register">Masuk / Daftar</string>
     <string name="please_login">Silakan login untuk menggunakan fitur ini</string>
+    <string name="name_updated">Nama diperbarui</string>
+    <string name="logout_success">Berhasil keluar</string>
+    <string name="logout_subtitle_logged_in">Keluar dari akun Anda</string>
+    <string name="logout_subtitle_guest">Masuk untuk simpan data</string>
 
     <!-- Home Fragment -->
     <string name="greeting_format">Selamat pagi,</string>
     <string name="tip_hydration_msg">Minum air putih membantu metabolisme tubuh!</string>
     <string name="tip_sleep_msg">Tidur cukup meningkatkan pemulihan otot.</string>
     <string name="tip_nutrition_msg">Nutrisi seimbang adalah kunci energi maksimal.</string>
+    <string name="weekly_status_format">%1$d dari %2$d hari selesai</string>
+    <string name="percentage_format">%1$d%%</string>
 
     <!-- Detail Activity -->
     <string name="workout_completed_msg">Workout %1$s telah dicatat di riwayat!</string>
@@ -31,4 +37,33 @@
     <string name="removed_from_favorite">Dihapus dari Favorit</string>
     <string name="btn_add_favorite">Tambah ke Favorit</string>
     <string name="btn_remove_favorite">Hapus dari Favorit</string>
+
+    <!-- Setup Profile / Login -->
+    <string name="login_title">Masuk</string>
+    <string name="register_title">Buat Akun</string>
+    <string name="login_subtitle">Lanjutkan progres latihan Anda</string>
+    <string name="register_subtitle">Simpan progres latihan Anda selamanya</string>
+    <string name="btn_login">Masuk Sekarang</string>
+    <string name="btn_register">Daftar Sekarang</string>
+    <string name="switch_to_login">Sudah punya akun? Masuk di sini</string>
+    <string name="switch_to_register">Belum punya akun? Daftar di sini</string>
+    <string name="label_username">Nama Pengguna</string>
+    <string name="label_password">Kata Sandi</string>
+    <string name="hint_username">Contoh: AndiPratama</string>
+    <string name="hint_password">Min. 6 karakter</string>
+    <string name="error_empty_fields">Silakan isi semua kolom</string>
+    <string name="error_password_short">Kata sandi minimal 6 karakter</string>
+    <string name="error_login_failed">Nama pengguna atau kata sandi salah</string>
+    <string name="error_register_failed">Pendaftaran gagal. Nama mungkin sudah digunakan.</string>
+    <string name="register_success">Pendaftaran berhasil</string>
+    <string name="welcome_message">Selamat datang, %1$s</string>
+
+    <!-- Workout Fragment -->
+    <string name="category_all">Semua</string>
+    <string name="category_chest">Dada</string>
+    <string name="category_back">Punggung</string>
+    <string name="category_legs">Kaki</string>
+    <string name="category_core">Inti/Perut</string>
+    <string name="no_data_found">Tidak ada latihan ditemukan</string>
+    <string name="network_error">Kesalahan jaringan. Periksa koneksi internet.</string>
 </resources>
