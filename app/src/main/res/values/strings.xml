@@ -24,7 +24,7 @@
     <string name="logout_subtitle_guest">Masuk untuk simpan data</string>
 
     <!-- Home Fragment -->
-    <string name="greeting_format">Selamat pagi,</string>
+    <string name="greeting_format">Selamat datang,</string>
     <string name="tip_hydration_msg">Minum air putih membantu metabolisme tubuh!</string>
     <string name="tip_sleep_msg">Tidur cukup meningkatkan pemulihan otot.</string>
     <string name="tip_nutrition_msg">Nutrisi seimbang adalah kunci energi maksimal.</string>

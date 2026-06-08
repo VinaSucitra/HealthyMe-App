@@ -8,19 +8,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.healthyme.R;
 import com.example.healthyme.activity.DetailActivity;
+import com.example.healthyme.api.ApiClient;
+import com.example.healthyme.api.ApiService;
 import com.example.healthyme.database.DatabaseHelper;
 import com.example.healthyme.model.Workout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.imageview.ShapeableImageView;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -30,6 +47,27 @@ public class HomeFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private DatabaseHelper dbHelper;
 
+    // Water Tracker
+    private TextView tvWaterCount;
+    private int waterCount = 0;
+    private static final int TARGET_WATER = 8;
+
+    // Recommendations
+    private LinearLayout layoutRecommendations;
+    private ProgressBar pbRecommendations;
+    private static final String API_KEY = "CxnrnztRIFd8rdGvlwTMZftJSXktzQaSYNJAKxNC";
+
+    // Motivation
+    private TextView tvMotivationQuote;
+    private final String[] quotes = {
+        "“Kesehatan adalah kekayaan yang paling berharga.”",
+        "“Jangan berhenti saat lelah, berhentilah saat selesai.”",
+        "“Masa depanmu dibentuk oleh apa yang kamu lakukan hari ini, bukan besok.”",
+        "“Disiplin adalah jembatan antara tujuan dan pencapaian.”",
+        "“Kesehatan mentalmu adalah prioritas. Kebahagiaanmu adalah penting.”",
+        "“Setiap langkah kecil membawamu lebih dekat ke versi terbaik dirimu.”"
+    };
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,79 +76,180 @@ public class HomeFragment extends Fragment {
         sharedPreferences = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         dbHelper = new DatabaseHelper(getContext());
         
-        // Inisialisasi View Profil
+        // Profil
         tvUserName = view.findViewById(R.id.tv_user_name);
         tvHomeAvatar = view.findViewById(R.id.tv_home_avatar);
 
-        // Inisialisasi View Program Mingguan
+        // Mingguan
         tvWeeklyStatus = view.findViewById(R.id.tv_weekly_status);
         tvWeeklyPercentage = view.findViewById(R.id.tv_weekly_percentage);
         pbWeeklyProgram = view.findViewById(R.id.pb_weekly_program);
 
-        // Klik avatar atau nama untuk pindah ke tab Profile
+        // Motivation
+        tvMotivationQuote = view.findViewById(R.id.tv_motivation_quote);
+        setRandomQuote();
+
+        // Water Tracker
+        tvWaterCount = view.findViewById(R.id.tv_water_count);
+        ImageView btnAddWater = view.findViewById(R.id.btn_add_water);
+        ImageView btnRemoveWater = view.findViewById(R.id.btn_remove_water);
+        
+        waterCount = sharedPreferences.getInt("water_count", 0);
+        updateWaterUI();
+
+        btnAddWater.setOnClickListener(v -> {
+            if (waterCount < 20) { // Maksimal 20 gelas
+                waterCount++;
+                saveWaterCount();
+                updateWaterUI();
+                if (waterCount == TARGET_WATER) {
+                    Toast.makeText(getContext(), "Hebat! Target air tercapai! 💧", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnRemoveWater.setOnClickListener(v -> {
+            if (waterCount > 0) {
+                waterCount--;
+                saveWaterCount();
+                updateWaterUI();
+            }
+        });
+
+        // Recommendations
+        layoutRecommendations = view.findViewById(R.id.layout_recommendations);
+        pbRecommendations = view.findViewById(R.id.pb_recommendations);
+
+        // Navigation
         View.OnClickListener goToProfile = v -> {
             BottomNavigationView navView = requireActivity().findViewById(R.id.bottom_navigation);
-            if (navView != null) {
-                navView.setSelectedItemId(R.id.navigation_profile);
-            }
+            if (navView != null) navView.setSelectedItemId(R.id.navigation_profile);
         };
         tvHomeAvatar.setOnClickListener(goToProfile);
         tvUserName.setOnClickListener(goToProfile);
 
-        // Load data profil & program
+        view.findViewById(R.id.btn_see_all).setOnClickListener(v -> {
+            BottomNavigationView navView = requireActivity().findViewById(R.id.bottom_navigation);
+            if (navView != null) navView.setSelectedItemId(R.id.navigation_workout);
+        });
+
+        setupTips(view);
         loadUserProfile();
         updateWeeklyProgram();
-
-        // Inisialisasi Tips
-        View tipHydration = view.findViewById(R.id.tip_hydration);
-        View tipSleep = view.findViewById(R.id.tip_sleep);
-        View tipNutrition = view.findViewById(R.id.tip_hydration_2);
-
-        tipHydration.setOnClickListener(v -> showToast(getString(R.string.tip_hydration_msg)));
-        tipSleep.setOnClickListener(v -> showToast(getString(R.string.tip_sleep_msg)));
-        tipNutrition.setOnClickListener(v -> showToast(getString(R.string.tip_nutrition_msg)));
-
-        // Inisialisasi Tombol Workout
-        Button btnWorkout1 = view.findViewById(R.id.btn_start_workout1);
-        Button btnWorkout2 = view.findViewById(R.id.btn_start_workout2);
-
-        btnWorkout1.setOnClickListener(v -> {
-            Workout workout = new Workout();
-            workout.setName("Bench Press");
-            workout.setType("Strength");
-            workout.setMuscle("Chest");
-            workout.setDifficulty("Beginner");
-            workout.setInstructions("1. Berbaring di bangku.\n2. Pegang palang sedikit lebih lebar dari bahu.\n3. Turunkan palang ke dada.\n4. Dorong kembali ke atas.");
-            navigateToDetail(workout);
-        });
-
-        btnWorkout2.setOnClickListener(v -> {
-            Workout workout = new Workout();
-            workout.setName("Jump Squat");
-            workout.setType("Plyometrics");
-            workout.setMuscle("Legs");
-            workout.setDifficulty("Beginner");
-            workout.setInstructions("1. Berdiri dengan kaki selebar bahu.\n2. Lakukan squat biasa.\n3. Melompatlah secara eksplosif ke atas.\n4. Mendaratlah dengan lembut.");
-            navigateToDetail(workout);
-        });
+        fetchRecommendations();
 
         return view;
     }
 
+    private void setRandomQuote() {
+        if (tvMotivationQuote != null) {
+            int randomIndex = new Random().nextInt(quotes.length);
+            tvMotivationQuote.setText(quotes[randomIndex]);
+        }
+    }
+
+    private void saveWaterCount() {
+        sharedPreferences.edit().putInt("water_count", waterCount).apply();
+    }
+
+    private void updateWaterUI() {
+        tvWaterCount.setText(waterCount + " dari " + TARGET_WATER + " gelas");
+    }
+
+    private void setupTips(View view) {
+        LinearLayout layoutTips = view.findViewById(R.id.layout_tips);
+        layoutTips.removeAllViews();
+
+        String[] tipTitles = {"Hidrasi", "Tidur", "Nutrisi", "Pemanasan", "Konsistensi", "Recovery"};
+        String[] tipSubtitles = {"8 gelas/hari", "7-8 jam", "Sayur & Buah", "5-10 menit", "Jadwal rutin", "Istirahatkan otot"};
+        int[] tipIcons = {R.drawable.ic_water, R.drawable.ic_sleep, R.drawable.ic_nutrition, R.drawable.ic_heart_pulse, R.drawable.ic_history, R.drawable.ic_moon};
+        String[] tipMsgs = {
+            "Minum air putih membantu metabolisme tubuh!",
+            "Tidur cukup meningkatkan pemulihan otot.",
+            "Nutrisi seimbang adalah kunci energi maksimal.",
+            "Pemanasan mencegah cedera saat latihan.",
+            "Hasil terbaik datang dari latihan yang rutin.",
+            "Otot tumbuh saat Anda beristirahat, bukan saat latihan."
+        };
+
+        for (int i = 0; i < tipTitles.length; i++) {
+            View tipView = getLayoutInflater().inflate(R.layout.item_tip_card, layoutTips, false);
+            ((ImageView) tipView.findViewById(R.id.iv_tip_icon)).setImageResource(tipIcons[i]);
+            ((TextView) tipView.findViewById(R.id.tv_tip_title)).setText(tipTitles[i]);
+            ((TextView) tipView.findViewById(R.id.tv_tip_subtitle)).setText(tipSubtitles[i]);
+            
+            final String msg = tipMsgs[i];
+            tipView.setOnClickListener(v -> Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show());
+            
+            layoutTips.addView(tipView);
+        }
+    }
+
+    private void fetchRecommendations() {
+        if (pbRecommendations != null) pbRecommendations.setVisibility(View.VISIBLE);
+        layoutRecommendations.removeAllViews();
+        if (pbRecommendations != null) layoutRecommendations.addView(pbRecommendations);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Map<String, String> options = new HashMap<>();
+        options.put("difficulty", "beginner");
+
+        apiService.getWorkouts(API_KEY, options).enqueue(new Callback<List<Workout>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Workout>> call, @NonNull Response<List<Workout>> response) {
+                if (!isAdded()) return;
+                if (pbRecommendations != null) pbRecommendations.setVisibility(View.GONE);
+                layoutRecommendations.removeView(pbRecommendations);
+
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Workout> list = response.body();
+                    for (int i = 0; i < Math.min(list.size(), 3); i++) {
+                        addRecommendationCard(list.get(i));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Workout>> call, @NonNull Throwable t) {
+                if (!isAdded()) return;
+                if (pbRecommendations != null) pbRecommendations.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void addRecommendationCard(Workout workout) {
+        View card = getLayoutInflater().inflate(R.layout.item_workout_recommendation, layoutRecommendations, false);
+        
+        TextView tvTitle = card.findViewById(R.id.tv_rec_title);
+        TextView tvSub = card.findViewById(R.id.tv_rec_subtitle);
+        ShapeableImageView ivIcon = card.findViewById(R.id.iv_rec_icon);
+        Button btnStart = card.findViewById(R.id.btn_rec_start);
+
+        tvTitle.setText(workout.getName());
+        tvSub.setText(workout.getMuscle() + " • " + workout.getType());
+
+        int iconRes = R.drawable.ic_dumbbell;
+        String muscle = workout.getMuscle().toLowerCase();
+        if (muscle.contains("chest")) iconRes = R.drawable.ic_chest;
+        else if (muscle.contains("leg")) iconRes = R.drawable.ic_jump_squat;
+        ivIcon.setImageResource(iconRes);
+
+        View.OnClickListener listener = v -> navigateToDetail(workout);
+        card.setOnClickListener(listener);
+        btnStart.setOnClickListener(listener);
+
+        layoutRecommendations.addView(card);
+    }
+
     private void loadUserProfile() {
         if (sharedPreferences == null) return;
-        
         String name = sharedPreferences.getString("user_name", getString(R.string.guest_user));
         tvUserName.setText(name);
-        
-        // Set Avatar (Inisial Nama)
         if (name != null && !name.trim().isEmpty()) {
             String[] parts = name.trim().split("\\s+");
             StringBuilder initials = new StringBuilder();
             for (int i = 0; i < Math.min(parts.length, 2); i++) {
-                if (!parts[i].isEmpty()) {
-                    initials.append(parts[i].charAt(0));
-                }
+                if (!parts[i].isEmpty()) initials.append(parts[i].charAt(0));
             }
             tvHomeAvatar.setText(initials.toString().toUpperCase());
         }
@@ -118,21 +257,26 @@ public class HomeFragment extends Fragment {
 
     private void updateWeeklyProgram() {
         if (dbHelper == null) return;
-
-        // Ambil jumlah hari unik latihan dalam 7 hari terakhir
         int uniqueDays = dbHelper.getUniqueDaysCountThisWeek();
         int targetDays = 7;
-        
-        // Batasi maksimal 7 hari
         if (uniqueDays > targetDays) uniqueDays = targetDays;
-
-        // Hitung persentase
         int percentage = (int) ((uniqueDays / (float) targetDays) * 100);
-
-        // Update UI
         tvWeeklyStatus.setText(uniqueDays + " dari " + targetDays + " hari selesai");
         tvWeeklyPercentage.setText(percentage + "%");
         pbWeeklyProgram.setProgress(percentage);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        View header = view.findViewById(R.id.header_home);
+        if (header != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(header, (v, insets) -> {
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(v.getPaddingLeft(), systemBars.top + (int) (16 * getResources().getDisplayMetrics().density), v.getPaddingRight(), v.getPaddingBottom());
+                return insets;
+            });
+        }
     }
 
     @Override
@@ -146,9 +290,5 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("workout", workout);
         startActivity(intent);
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

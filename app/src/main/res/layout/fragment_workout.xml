@@ -25,14 +25,30 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/btn_search_workout"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/bg_search_circle"
                 android:padding="12dp"
                 android:src="@android:drawable/ic_menu_search"
-                app:tint="@color/splash_cyan" />
+                app:tint="@color/splash_cyan"
+                android:clickable="true"
+                android:focusable="true" />
         </RelativeLayout>
+
+        <!-- Search Bar (Hidden by default) -->
+        <EditText
+            android:id="@+id/et_search_workout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_workout_card"
+            android:hint="Cari nama latihan..."
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
