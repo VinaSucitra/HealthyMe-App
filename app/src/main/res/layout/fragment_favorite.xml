@@ -21,13 +21,16 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/btn_filter_favorite"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="@drawable/bg_search_circle"
             android:padding="12dp"
             android:src="@drawable/ic_filter"
-            app:tint="@color/splash_cyan" />
+            app:tint="@color/splash_cyan"
+            android:clickable="true"
+            android:focusable="true" />
     </RelativeLayout>
 
     <LinearLayout
@@ -118,6 +121,22 @@
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
+
+    <!-- Filter Indicator Tag -->
+    <TextView
+        android:id="@+id/tv_active_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_badge_cyan"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:text="Filter: Semua"
+        android:textColor="@color/white_absolute"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite"

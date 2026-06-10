@@ -2,11 +2,14 @@ package com.example.healthyme.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +43,11 @@ public class WorkoutFragment extends Fragment {
 
     private WorkoutAdapter adapter;
     private ProgressBar progressBar;
+    private List<Workout> allWorkouts = new ArrayList<>();
+    private EditText etSearch;
+    private ImageView btnSearchToggle;
 
-    // API Key Anda dari api-ninjas.com
     private static final String API_KEY = "CxnrnztRIFd8rdGvlwTMZftJSXktzQaSYNJAKxNC";
-
     private TextView currentSelectedChip;
 
     @Nullable
@@ -51,19 +55,10 @@ public class WorkoutFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_workout, container, false);
 
-        // Handle Window Insets (Status Bar)
-        RelativeLayout header = view.findViewById(R.id.header_workout);
-        if (header == null) {
-            // Jika id tidak ada di XML, kita cari RelativeLayout pertama
-            header = (RelativeLayout) ((ViewGroup)view).getChildAt(0).findViewById(R.id.header_workout);
-        }
-        
-        // Let's check the XML again. It doesn't have an ID for the RelativeLayout.
-        // I should probably add an ID to the XML or find it by type if it's the first child.
-        // Actually, I'll modify the XML first to make it cleaner.
-
         RecyclerView rvWorkout = view.findViewById(R.id.rv_workout);
         progressBar = view.findViewById(R.id.progress_bar);
+        etSearch = view.findViewById(R.id.et_search_workout);
+        btnSearchToggle = view.findViewById(R.id.btn_search_workout);
 
         rvWorkout.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new WorkoutAdapter(new ArrayList<>(), workout -> {
@@ -73,12 +68,45 @@ public class WorkoutFragment extends Fragment {
         });
         rvWorkout.setAdapter(adapter);
 
-        setupChips(view);
+        // Toggle Search Bar
+        btnSearchToggle.setOnClickListener(v -> {
+            if (etSearch.getVisibility() == View.GONE) {
+                etSearch.setVisibility(View.VISIBLE);
+                etSearch.requestFocus();
+            } else {
+                etSearch.setVisibility(View.GONE);
+                etSearch.setText("");
+            }
+        });
 
-        // Load awal: kategori Dada (Chest) sebagai default
-        fetchWorkouts("chest");
+        // Search Logic
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterWorkouts(s.toString());
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        setupChips(view);
+        
+        // Memuat "Semua" secara default (mengirim null agar difilter by beginner oleh logic fetchWorkouts)
+        fetchWorkouts(null);
 
         return view;
+    }
+
+    private void filterWorkouts(String query) {
+        List<Workout> filteredList = new ArrayList<>();
+        for (Workout workout : allWorkouts) {
+            if (workout.getName().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(workout);
+            }
+        }
+        adapter.setWorkouts(filteredList);
     }
 
     private void setupChips(View view) {
@@ -88,15 +116,14 @@ public class WorkoutFragment extends Fragment {
         TextView chipLegs = view.findViewById(R.id.chip_legs);
         TextView chipAbs = view.findViewById(R.id.chip_abdominals);
 
-        // Mengatur teks dari strings.xml
         chipAll.setText(R.string.category_all);
         chipChest.setText(R.string.category_chest);
         chipBack.setText(R.string.category_back);
         chipLegs.setText(R.string.category_legs);
         chipAbs.setText(R.string.category_core);
 
-        // Set default terpilih: Dada
-        currentSelectedChip = chipChest;
+        // Set default terpilih: Semua (diubah dari Chest)
+        currentSelectedChip = chipAll;
         updateChipUI(currentSelectedChip, true);
 
         View.OnClickListener chipListener = v -> {
@@ -113,9 +140,9 @@ public class WorkoutFragment extends Fragment {
             else if (id == R.id.chip_back) muscle = "back";
             else if (id == R.id.chip_legs) muscle = "legs";
             else if (id == R.id.chip_abdominals) muscle = "abdominals";
-                // Jika "Semua", kita kirim null agar fetchWorkouts menangani defaultnya
-            else if (id == R.id.chip_all) muscle = null;
-
+            // Jika id adalah chip_all, muscle tetap null
+            
+            etSearch.setText("");
             fetchWorkouts(muscle);
         };
 
@@ -144,7 +171,7 @@ public class WorkoutFragment extends Fragment {
         if (muscle != null) {
             options.put("muscle", muscle);
         } else {
-            // API ini wajib ada 1 filter. Jika "Semua", kita tampilkan Beginner sebagai default.
+            // Untuk mode "Semua", kita tampilkan Beginner sebagai filter default (karena API wajib ada 1 filter)
             options.put("difficulty", "beginner");
         }
 
@@ -153,60 +180,32 @@ public class WorkoutFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Workout>> call, @NonNull Response<List<Workout>> response) {
                 if (!isAdded()) return;
                 progressBar.setVisibility(View.GONE);
-
                 if (response.isSuccessful() && response.body() != null) {
-                    adapter.setWorkouts(response.body());
-                    if (response.body().isEmpty()) {
-                        showToast(getString(R.string.no_data_found));
-                    }
-                } else {
-                    String message = "Server Error: " + response.code();
-                    if (response.code() == 401) message = "API Key Tidak Valid";
-                    else if (response.code() == 400) message = "Filter Wajib Tidak Ada (400)";
-
-                    showToast(message);
-                    showDummyData();
+                    allWorkouts = response.body();
+                    adapter.setWorkouts(allWorkouts);
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<List<Workout>> call, @NonNull Throwable t) {
                 if (!isAdded()) return;
                 progressBar.setVisibility(View.GONE);
                 showToast(getString(R.string.network_error));
-                showDummyData();
             }
         });
     }
 
-    private void showDummyData() {
-        List<Workout> dummyList = new ArrayList<>();
-        Workout w = new Workout();
-        w.setName("Latihan (Offline)");
-        w.setMuscle("n/a");
-        w.setType("n/a");
-        w.setDifficulty("n/a");
-        w.setInstructions("Mohon periksa internet atau API Key Anda untuk melihat data asli.");
-        dummyList.add(w);
-        adapter.setWorkouts(dummyList);
-    }
-
     private void showToast(String message) {
-        if (getContext() != null) {
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-        }
+        if (getContext() != null) Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
-        // Menangani Insets agar tidak tertutup Status Bar (Jam)
         View header = view.findViewById(R.id.header_workout);
         if (header != null) {
             ViewCompat.setOnApplyWindowInsetsListener(header, (v, insets) -> {
                 Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(v.getPaddingLeft(), systemBars.top, v.getPaddingRight(), v.getPaddingBottom());
+                v.setPadding(v.getPaddingLeft(), systemBars.top + (int) (24 * getResources().getDisplayMetrics().density), v.getPaddingRight(), v.getPaddingBottom());
                 return insets;
             });
         }
