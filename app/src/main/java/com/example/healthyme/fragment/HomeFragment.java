@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -16,9 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.healthyme.R;
@@ -28,7 +24,6 @@ import com.example.healthyme.api.ApiService;
 import com.example.healthyme.database.DatabaseHelper;
 import com.example.healthyme.model.Workout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.imageview.ShapeableImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,7 +62,7 @@ public class HomeFragment extends Fragment {
         "“Jangan berhenti saat lelah, berhentilah saat selesai.”",
         "“Masa depanmu dibentuk oleh apa yang kamu lakukan hari ini, bukan besok.”",
         "“Disiplin adalah jembatan antara tujuan dan pencapaian.”",
-        "“Kesehatan mentalmu adalah prioritas. Kebahagiaanmu adalah penting.”",
+        "“Kesehatan mentalmu adalah prioritas. Kebahagiaanmu itu penting.”",
         "“Setiap langkah kecil membawamu lebih dekat ke versi terbaik dirimu.”",
         "“Tubuhmu adalah satu-satunya tempat tinggalmu. Jagalah baik-baik.”"
     };
@@ -83,11 +78,8 @@ public class HomeFragment extends Fragment {
         // Inisialisasi View
         tvUserName = view.findViewById(R.id.tv_user_name);
         tvHomeAvatar = view.findViewById(R.id.tv_home_avatar);
-        tvWeeklyStatus = view.findViewById(R.id.tv_weekly_status);
-        tvWeeklyPercentage = view.findViewById(R.id.tv_weekly_percentage);
-        pbWeeklyProgram = view.findViewById(R.id.pb_weekly_program);
         tvMotivationQuote = view.findViewById(R.id.tv_motivation_quote);
-        
+
         // Water Tracker Views
         tvWaterCount = view.findViewById(R.id.tv_water_count);
         ImageView btnAddWater = view.findViewById(R.id.btn_add_water);
@@ -120,12 +112,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Set Motivasi Acak
         setRandomQuote();
-
-        // Navigasi
         setupNavigation(view);
-
         setupTips(view);
         loadUserProfile();
         updateWeeklyProgram();
@@ -137,14 +125,9 @@ public class HomeFragment extends Fragment {
     private void checkDailyWaterReset() {
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         String lastDate = sharedPreferences.getString("water_last_date", "");
-
         if (!today.equals(lastDate)) {
-            // Jika hari berganti, reset jumlah air
             waterCount = 0;
-            sharedPreferences.edit()
-                    .putInt("water_count", 0)
-                    .putString("water_last_date", today)
-                    .apply();
+            sharedPreferences.edit().putInt("water_count", 0).putString("water_last_date", today).apply();
         } else {
             waterCount = sharedPreferences.getInt("water_count", 0);
         }
@@ -155,7 +138,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateWaterUI() {
-        tvWaterCount.setText(waterCount + " dari " + TARGET_WATER + " gelas");
+        if (tvWaterCount != null) {
+            tvWaterCount.setText(waterCount + " dari " + TARGET_WATER + " gelas");
+        }
     }
 
     private void setRandomQuote() {
@@ -170,23 +155,26 @@ public class HomeFragment extends Fragment {
             BottomNavigationView navView = requireActivity().findViewById(R.id.bottom_navigation);
             if (navView != null) navView.setSelectedItemId(R.id.navigation_profile);
         };
-        tvHomeAvatar.setOnClickListener(goToProfile);
-        tvUserName.setOnClickListener(goToProfile);
+        if (tvHomeAvatar != null) tvHomeAvatar.setOnClickListener(goToProfile);
+        if (tvUserName != null) tvUserName.setOnClickListener(goToProfile);
 
-        view.findViewById(R.id.btn_see_all).setOnClickListener(v -> {
-            BottomNavigationView navView = requireActivity().findViewById(R.id.bottom_navigation);
-            if (navView != null) navView.setSelectedItemId(R.id.navigation_workout);
-        });
+        View btnSeeAll = view.findViewById(R.id.btn_see_all);
+        if (btnSeeAll != null) {
+            btnSeeAll.setOnClickListener(v -> {
+                BottomNavigationView navView = requireActivity().findViewById(R.id.bottom_navigation);
+                if (navView != null) navView.setSelectedItemId(R.id.navigation_workout);
+            });
+        }
     }
 
     private void setupTips(View view) {
         LinearLayout layoutTips = view.findViewById(R.id.layout_tips);
+        if (layoutTips == null) return;
+        
         layoutTips.removeAllViews();
-
         String[] tipTitles = {"Hidrasi", "Tidur", "Nutrisi", "Pemanasan", "Konsistensi", "Recovery"};
         String[] tipSubtitles = {"8 gelas/hari", "7-8 jam", "Sayur & Buah", "5-10 menit", "Jadwal rutin", "Istirahatkan otot"};
         int[] tipIcons = {R.drawable.ic_water, R.drawable.ic_sleep, R.drawable.ic_nutrition, R.drawable.ic_heart_pulse, R.drawable.ic_history, R.drawable.ic_moon};
-        
         for (int i = 0; i < tipTitles.length; i++) {
             View tipView = getLayoutInflater().inflate(R.layout.item_tip_card, layoutTips, false);
             ((ImageView) tipView.findViewById(R.id.iv_tip_icon)).setImageResource(tipIcons[i]);
@@ -198,20 +186,19 @@ public class HomeFragment extends Fragment {
 
     private void fetchRecommendations() {
         if (pbRecommendations != null) pbRecommendations.setVisibility(View.VISIBLE);
-        layoutRecommendations.removeAllViews();
-        if (pbRecommendations != null) layoutRecommendations.addView(pbRecommendations);
-
+        if (layoutRecommendations != null) {
+            layoutRecommendations.removeAllViews();
+            if (pbRecommendations != null) layoutRecommendations.addView(pbRecommendations);
+        }
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Map<String, String> options = new HashMap<>();
         options.put("difficulty", "beginner");
-
         apiService.getWorkouts(API_KEY, options).enqueue(new Callback<List<Workout>>() {
             @Override
             public void onResponse(@NonNull Call<List<Workout>> call, @NonNull Response<List<Workout>> response) {
                 if (!isAdded()) return;
                 if (pbRecommendations != null) pbRecommendations.setVisibility(View.GONE);
-                layoutRecommendations.removeView(pbRecommendations);
-
+                if (layoutRecommendations != null) layoutRecommendations.removeView(pbRecommendations);
                 if (response.isSuccessful() && response.body() != null) {
                     List<Workout> list = response.body();
                     for (int i = 0; i < Math.min(list.size(), 3); i++) {
@@ -219,7 +206,6 @@ public class HomeFragment extends Fragment {
                     }
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<List<Workout>> call, @NonNull Throwable t) {
                 if (!isAdded()) return;
@@ -229,10 +215,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void addRecommendationCard(Workout workout) {
+        if (layoutRecommendations == null) return;
         View card = getLayoutInflater().inflate(R.layout.item_workout_recommendation, layoutRecommendations, false);
         ((TextView) card.findViewById(R.id.tv_rec_title)).setText(workout.getName());
         ((TextView) card.findViewById(R.id.tv_rec_subtitle)).setText(workout.getMuscle() + " • " + workout.getType());
-
         View.OnClickListener listener = v -> {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra("workout", workout);
@@ -240,16 +226,14 @@ public class HomeFragment extends Fragment {
         };
         card.setOnClickListener(listener);
         card.findViewById(R.id.btn_rec_start).setOnClickListener(listener);
-
         layoutRecommendations.addView(card);
     }
 
     private void loadUserProfile() {
         if (sharedPreferences == null) return;
         String name = sharedPreferences.getString("user_name", getString(R.string.guest_user));
-        tvUserName.setText(name);
-        
-        if (name != null && !name.trim().isEmpty()) {
+        if (tvUserName != null) tvUserName.setText(name);
+        if (name != null && !name.trim().isEmpty() && tvHomeAvatar != null) {
             String[] parts = name.trim().split("\\s+");
             StringBuilder initials = new StringBuilder();
             for (int i = 0; i < Math.min(parts.length, 2); i++) {
@@ -265,9 +249,16 @@ public class HomeFragment extends Fragment {
         int targetDays = 7;
         if (uniqueDays > targetDays) uniqueDays = targetDays;
         int percentage = (int) ((uniqueDays / (float) targetDays) * 100);
-        tvWeeklyStatus.setText(uniqueDays + " dari " + targetDays + " hari selesai");
-        tvWeeklyPercentage.setText(percentage + "%");
-        pbWeeklyProgram.setProgress(percentage);
+        
+        if (tvWeeklyStatus != null) {
+            tvWeeklyStatus.setText(uniqueDays + " dari " + targetDays + " hari selesai");
+        }
+        if (tvWeeklyPercentage != null) {
+            tvWeeklyPercentage.setText(percentage + "%");
+        }
+        if (pbWeeklyProgram != null) {
+            pbWeeklyProgram.setProgress(percentage);
+        }
     }
 
     @Override
@@ -277,5 +268,10 @@ public class HomeFragment extends Fragment {
         updateWeeklyProgram();
         checkDailyWaterReset();
         updateWaterUI();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

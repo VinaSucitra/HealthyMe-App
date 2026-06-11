@@ -10,7 +10,9 @@ import com.example.healthyme.model.History;
 import com.example.healthyme.model.Workout;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -169,6 +171,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return count;
+    }
+
+    public int getHistoryCountToday() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_HISTORY + 
+                       " WHERE date(" + COLUMN_DATE + ", 'localtime') = date('now', 'localtime')";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    public Set<String> getWorkoutDatesLast7Days() {
+        Set<String> dates = new HashSet<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT DISTINCT date(" + COLUMN_DATE + ", 'localtime') FROM " + TABLE_HISTORY +
+                       " WHERE " + COLUMN_DATE + " >= date('now', '-7 days')";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                dates.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return dates;
     }
 
     public int getHistoryCountThisWeek() {
